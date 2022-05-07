@@ -16,13 +16,13 @@ describe Connect_four do
     it "shows the board" do
       connect_four = Connect_four.new()
       connect_four.create_board
-      expect(connect_four.show_board).to eql("⛒⛒⛒⛒⛒⛒⛒\n⛒⛒⛒⛒⛒⛒⛒\n⛒⛒⛒⛒⛒⛒⛒\n⛒⛒⛒⛒⛒⛒⛒\n⛒⛒⛒⛒⛒⛒⛒\n⛒⛒⛒⛒⛒⛒⛒")
+      expect(connect_four.show_board).to eql("⛒ ⛒ ⛒ ⛒ ⛒ ⛒ ⛒ \n⛒ ⛒ ⛒ ⛒ ⛒ ⛒ ⛒ \n⛒ ⛒ ⛒ ⛒ ⛒ ⛒ ⛒ \n⛒ ⛒ ⛒ ⛒ ⛒ ⛒ ⛒ \n⛒ ⛒ ⛒ ⛒ ⛒ ⛒ ⛒ \n⛒ ⛒ ⛒ ⛒ ⛒ ⛒ ⛒ \n")
     end
   end
   describe "#add_token" do
     it "adds a token on the board for player 1" do
       connect_four = Connect_four.new()
-      expect(connect_four.add_token(0, 1)).to eql([[0, nil, nil, nil, nil, nil],
+      expect(connect_four.add_token(0, 0)).to eql([[0, nil, nil, nil, nil, nil],
                                                    [nil, nil, nil, nil, nil, nil],
                                                    [nil, nil, nil, nil, nil, nil],
                                                    [nil, nil, nil, nil, nil, nil],
@@ -32,7 +32,7 @@ describe Connect_four do
     end
     it "adds a token on the board for player 2" do
       connect_four = Connect_four.new()
-      expect(connect_four.add_token(0, 2)).to eql([[1, nil, nil, nil, nil, nil],
+      expect(connect_four.add_token(0, 1)).to eql([[1, nil, nil, nil, nil, nil],
                                                    [nil, nil, nil, nil, nil, nil],
                                                    [nil, nil, nil, nil, nil, nil],
                                                    [nil, nil, nil, nil, nil, nil],
@@ -41,12 +41,57 @@ describe Connect_four do
                                                    [nil, nil, nil, nil, nil, nil]])
     end
   end
-  describe "#check_win"
-    it "checks if the player has won based on the last token placed" do
-      connect_four = Connect_four.new()
-      connect_four.add_token(1,1)
-      connect_four.add_token(2,1)
-      connect_four.add_token(3,1)
-      expect(connect_four.check_win(0)).to eql(true)
-    end
+ 
+  describe "#line_of_four?"
+  it "checks if the board contains a line of four horizontally" do
+    connect_four = Connect_four.new()
+    connect_four.add_token(0, 1)
+    connect_four.add_token(1, 1)
+    connect_four.add_token(2, 1)
+    connect_four.add_token(3, 1)
+    expect(connect_four.line_of_four?).to eql(1)
+  end
+  it "checks if the board contains a line of four vertically" do
+    connect_four = Connect_four.new()
+    connect_four.add_token(0, 1)
+    connect_four.add_token(0, 1)
+    connect_four.add_token(0, 1)
+    connect_four.add_token(0, 1)
+    expect(connect_four.line_of_four?).to eql(1)
+  end
+  it "checks if the board contains a line of four ascending diagonally" do
+    connect_four = Connect_four.new()
+    connect_four.add_token(0, 1)
+
+    connect_four.add_token(1, 2)
+    connect_four.add_token(1, 1)
+
+    connect_four.add_token(2, 2)
+    connect_four.add_token(2, 2)
+    connect_four.add_token(2, 1)
+
+    connect_four.add_token(3, 2)
+    connect_four.add_token(3, 2)
+    connect_four.add_token(3, 2)
+    connect_four.add_token(3, 1)
+
+    expect(connect_four.line_of_four?).to eql(1)
+  end
+  it "checks if the board contains a line of four descending diagonally" do
+    connect_four = Connect_four.new()
+    connect_four.add_token(0, 2)
+    connect_four.add_token(0, 2)
+    connect_four.add_token(0, 2)
+    connect_four.add_token(0, 1)
+
+    connect_four.add_token(1, 2)
+    connect_four.add_token(1, 2)
+    connect_four.add_token(1, 1)
+
+    connect_four.add_token(2, 2)
+    connect_four.add_token(2, 1)
+
+    connect_four.add_token(3, 1)
+    expect(connect_four.line_of_four?).to eql(1)
+  end
 end
